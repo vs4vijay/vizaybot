@@ -42,10 +42,10 @@ public class VizBotServlet extends HttpServlet {
 		String body = message.getBody();
 		String stanza = message.getStanza();
 		MessageType messageType = message.getMessageType();
-		
+
 		System.out.println("from JID: " + jid.getId());
 		System.out.println("Body : " + body);
-		
+
 		String sender = jid.getId().split("@")[0];
 		String email = jid.getId().split("/")[0];
 

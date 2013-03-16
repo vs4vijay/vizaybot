@@ -2,9 +2,10 @@ package com.vs4vijay.util;
 
 /**
  * 
- *  A General Bot Utility
+ * A General Bot Utility
+ * 
  * @author Vijay
- *
+ * 
  */
 public class BotUtil {
 
