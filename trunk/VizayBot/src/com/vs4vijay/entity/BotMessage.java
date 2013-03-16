@@ -31,7 +31,7 @@ public class BotMessage implements Serializable {
 
 	@Persistent
 	private MessageType messageType;
-	
+
 	@Persistent
 	private Date date = new Date();
 
@@ -99,6 +99,7 @@ public class BotMessage implements Serializable {
 	@Override
 	public String toString() {
 		return "BotMessage [key=" + key + ", email=" + email + ", body=" + body
-				+ ", stanza=" + stanza + ", messageType=" + messageType + "]";
+				+ ", stanza=" + stanza + ", messageType=" + messageType
+				+ ", date=" + date + "]";
 	}
 }
