@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.xmpp.JID;
 import com.google.appengine.api.xmpp.Message;
 import com.google.appengine.api.xmpp.MessageBuilder;
+import com.google.appengine.api.xmpp.MessageType;
 import com.google.appengine.api.xmpp.SendResponse;
 import com.google.appengine.api.xmpp.XMPPService;
 import com.google.appengine.api.xmpp.XMPPServiceFactory;
 import com.vs4vijay.entity.BotMessage;
+import com.vs4vijay.util.BotUtil;
 
 @SuppressWarnings("serial")
 public class VizBotServlet extends HttpServlet {
@@ -38,19 +40,22 @@ public class VizBotServlet extends HttpServlet {
 
 		JID jid = message.getFromJid();
 		String body = message.getBody();
-
+		String stanza = message.getStanza();
+		MessageType messageType = message.getMessageType();
+		
 		System.out.println("from JID: " + jid.getId());
 		System.out.println("Body : " + body);
+		
+		String sender = jid.getId().split("@")[0];
+		String email = jid.getId().split("/")[0];
 
-		BotMessage botMessage = new BotMessage(jid.getId(), body);
+		BotMessage botMessage = new BotMessage(email, body, stanza, messageType);
 		this.save(botMessage);
 
-		String sender = jid.getId().split("@")[0];
-		String reply = "Hey *" + sender + "*, You have entered : " + body
-				+ " B-)";
+		String response = BotUtil.getGeneralResponse(sender, body);
 
 		Message replyMessage = new MessageBuilder().withRecipientJids(jid)
-				.withBody(reply).build();
+				.withBody(response).build();
 
 		if (xmppService.getPresence(jid).isAvailable()) {
 			SendResponse status = xmppService.sendMessage(replyMessage);
@@ -66,4 +71,5 @@ public class VizBotServlet extends HttpServlet {
 		persistenceManager.makePersistent(botMessage);
 		return Boolean.TRUE;
 	}
+
 }
