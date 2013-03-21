@@ -19,6 +19,7 @@ import com.google.appengine.api.xmpp.XMPPService;
 import com.google.appengine.api.xmpp.XMPPServiceFactory;
 import com.vs4vijay.entity.BotMessage;
 import com.vs4vijay.util.BotUtil;
+import com.vs4vijay.util.MailUtil;
 
 @SuppressWarnings("serial")
 public class VizBotServlet extends HttpServlet {
@@ -53,7 +54,10 @@ public class VizBotServlet extends HttpServlet {
 		this.save(botMessage);
 
 		String response = BotUtil.getGeneralResponse(sender, body);
-
+		System.out.println(">>>>> Sending Mail");
+		MailUtil.send(email, body);
+		System.out.println(">>>>> Mail Sent");
+		
 		Message replyMessage = new MessageBuilder().withRecipientJids(jid)
 				.withBody(response).build();
 
